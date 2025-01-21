@@ -13,6 +13,7 @@ interface Adaptador {
     * */
     fun quantidadeItens() : Int
 
+
     /*
     * Esse método é responsável por retornar cada item da lista, utilizando a posição
     * O método irá retornar uma string, e você pode montar o Layout como Quiser
@@ -37,7 +38,7 @@ class ComponenteListagem {
                 val item = adaptador!!.montarLayoutParaItem(posicao)
                 println( item )
             }
-            
+
         }else{
             println("Configura um adaptador para prosseguir")
         }
@@ -45,7 +46,16 @@ class ComponenteListagem {
 
 }
 
-class MeuAdaptador() {
+class MeuAdaptador(lista : List<String>) : Adaptador{
+    private val listaItens = lista
+    override fun quantidadeItens(): Int {
+        return listaItens.size
+    }
+
+    override fun montarLayoutParaItem(posicao: Int): String {
+        val nome = listaItens[posicao]
+        return "$posicao) $nome -"
+    }
 }
 
 fun main() {
@@ -54,5 +64,7 @@ fun main() {
     val listaItens = listOf("jamilton", "ana", "maria", "pedro", "joão")
 
     val componenteListagem = ComponenteListagem()
+    componenteListagem.adaptador = MeuAdaptador( listaItens )
+    componenteListagem.executar()
 
 }
